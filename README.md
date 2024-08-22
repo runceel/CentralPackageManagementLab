@@ -15,7 +15,7 @@ graph TD
     CommonLibrary -->|ProjectReference| CommonLibrary.Core
 ```
 
-プロジェクト間の依存関係は `ProjectReference` ではなく `PackageReference` で管理する。
+基本的にプロジェクト間の依存関係は `ProjectReference` ではなく `PackageReference` で管理する。同じ `Business` 内や `Common` 内は `ProjectReference` で管理する。
 
 ## パッケージ化
 
