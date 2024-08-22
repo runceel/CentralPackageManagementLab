@@ -129,4 +129,93 @@ Central Package Management の有効化とフォルダー内のプロジェク�
 
 ## トップレベルのパッケージは dll を持たない references だけにする案
 
-nuspec ファイルで依存するものを纏める。
+`BusinessA`, `BusinessB` などの DLL を持つパッケージではなく、依存関係だけを定義した `nuspec` ファイルを作成し、それをパッケージ化する案。`.Packages` サフィックスを付けたものが `nuspec` ファイルを持つパッケージとすると以下のような依存関係となる。
+
+```mermaid
+graph TD
+    EntryPointApp -->|PackageReference| BusinessA.Packages
+    EntryPointApp -->|PackageReference| BusinessB.Packages
+    BusinessA.Packages -->|PackageReference| BusinessA
+    BusinessB.Packages -->|PackageReference| BusinessB
+    BusinessA -->|PackageReference| CommonLibrary.Packages
+    BusinessB -->|PackageReference| BusinessA.Public.Packages
+    BusinessA.Public.Packages -->|PackageReference| BusinessA.Public
+    BusinessA.Public -->|PackageReference| CommonLibrary.Packages
+    CommonLibrary.Packages -->|PackageReference| CommonLibrary
+    BusinessB -->|PackageReference| CommonLibrary.Packages
+    CommonLibrary -->|ProjectReference| CommonLibrary.Core
+```
+
+このようにすることで一部のパッケージだけバージョンアップした際には `.Packages` の依存関係の定義を更新してリリースすることでディスク容量は節約した状態で最新の一連のパッケージを利用することが出来るようになる。
+
+
+### 詳細
+
+例えば `BusinessA` が `BusinessA.Sub1`, `BusinessA.Sub2` に依存しているとする。バージョン番号は `BusinessA` が `1.0.0` で `BusinessA.Sub1` が `1.0.0` で `BusinessA.Sub2` が `1.0.0` であるとする。
+
+そして `BusinessA` 業務としてリリースするべきパッケージの依存関係を定義した `nuspec` ファイルを元に `BusinessA.Packages` という名前のパッケージを作成する。このパッケージは `BusinessA` が `1.0.0` で `BusinessA.Sub1` が `1.0.0` で `BusinessA.Sub2` が `1.0.0` であるという依存関係を持つ。
+
+```mermaid
+graph TD
+    PackagesV1["BusinessA.Packages v1.0.0 (nuspec)"]
+    RootV1[BusinessA v1.0.0]
+    Sub1V1[BusinessA.Sub1 v1.0.0]
+    Sub2V1[BusinessA.Sub2 v1.0.0]
+
+    PackagesV1 -->|PackageReference| RootV1
+    RootV1 -->|PackageReference| Sub1V1
+    RootV1 -->|PackageReference| Sub2V1
+```
+
+この状態で `BusinessA` の新機能のリリースで `BusinessA.Sub1` のバージョン `1.1.0` がリリースされたとする。`BusinessA.Sub1` はバイナリ互換があり `BusinessA` は `1.0.0` のままである。この場合、`BusinessA.Packages` の依存関係を `BusinessA.Sub1` のバージョン `1.1.0` に更新して `BusinessA.Packages` をリリースする。
+
+```mermaid
+graph TD
+    PackagesV1["BusinessA.Packages v1.0.0 (nuspec)"]
+    PackagesV1.1["BusinessA.Packages v1.1.0 (nuspec)"]
+    RootV1[BusinessA v1.0.0]
+    Sub1V1[BusinessA.Sub1 v1.0.0]
+    Sub1V1.1[BusinessA.Sub1 v1.1.0]
+    Sub2V1[BusinessA.Sub2 v1.0.0]
+
+    PackagesV1 -->|PackageReference| RootV1
+    RootV1 -->|PackageReference| Sub1V1
+    RootV1 -->|PackageReference| Sub2V1
+
+    PackagesV1.1 -->|PackageReference| RootV1
+    PackagesV1.1 -->|PackageReference| Sub1V1.1
+```
+
+この場合 NuGet のバージョン解決のルールにより `BusinessA.Packages v1.1.0` を参照すると以下の 3 つのパッケージがインストールされる。
+
+- `BusinessA v1.0.0`
+- `BusinessA.Sub1 v1.1.0`
+- `BusinessA.Sub2 v1.0.0`
+
+このようにすることでストレージコストを最小化しつつ最新のパッケージを利用することが実現できる。
+
+hotfix のリリースも同様に `BusinessA.Packages` の依存関係を更新してリリースすることで最新のパッケージを利用することが出来る。例えば `BusinessA.Packages v1.1.0` のリリース後に `BusinessA.Sub1` に hotfix がリリースされた場合は `BusinessA.Packages` の依存関係を更新してリリースする。hotfix バージョンはセマンティックバージョニングに従い `1.1.1-hotfix1` のようなバージョン番号を付ける。
+
+`v1.1.1-hotfix1` のリリース後の状態は以下のようになる。
+
+```mermaid
+graph TD
+    PackagesV1["BusinessA.Packages v1.0.0 (nuspec)"]
+    PackagesV1.1["BusinessA.Packages v1.1.0 (nuspec)"]
+    PackagesV1.1.1-hotfix1["BusinessA.Packages v1.1.1-hotfix1 (nuspec)"]
+    RootV1[BusinessA v1.0.0]
+    Sub1V1[BusinessA.Sub1 v1.0.0]
+    Sub1V1.1[BusinessA.Sub1 v1.1.0]
+    Sub1V1.1.1-hotfix1[BusinessA.Sub1 v1.1.1-hotfix1]
+    Sub2V1[BusinessA.Sub2 v1.0.0]
+
+    PackagesV1 -->|PackageReference| RootV1
+    RootV1 -->|PackageReference| Sub1V1
+    RootV1 -->|PackageReference| Sub2V1
+
+    PackagesV1.1 -->|PackageReference| RootV1
+    PackagesV1.1 -->|PackageReference| Sub1V1.1
+
+    PackagesV1.1.1-hotfix1 -->|PackageReference| RootV1
+    PackagesV1.1.1-hotfix1 -->|PackageReference| Sub1V1.1.1-hotfix1
+```
