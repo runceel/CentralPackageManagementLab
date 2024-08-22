@@ -5,9 +5,9 @@
     <PackageVersion Include="BusinessA" Version="1.0.0" />
     <PackageVersion Include="BusinessB" Version="1.0.0" />
   </ItemGroup>
-  
   <!-- ホットフィックス -->
+  <!--
   <ItemGroup>
-    <PackageVersion Include="BusinessA.Public" Version="1.0.0.1" />
-  </ItemGroup>
+    <PackageVersion Include="BusinessA.Public" Version="1.0.1-hotfix1" />
+  </ItemGroup>-->
 </Project>
