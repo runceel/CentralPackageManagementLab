@@ -1,0 +1,5 @@
+﻿<Project>
+  <ItemGroup>
+    <PackageReference Include="CommonLibrary" />
+  </ItemGroup>
+</Project>
