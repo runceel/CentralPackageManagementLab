@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntryPoint", "EntryPoint", "{D310853D-4287-440E-8F5E-0EC60C934655}"
+	ProjectSection(SolutionItems) = preProject
+		EntryPoint\CommonPackageReferences.props = EntryPoint\CommonPackageReferences.props
+		EntryPoint\Directory.Build.props = EntryPoint\Directory.Build.props
+		EntryPoint\Directory.Packages.props = EntryPoint\Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{ACEF6EBB-8771-4958-8C11-8C94A10B6F2D}"
+	ProjectSection(SolutionItems) = preProject
+		Common\Directory.Build.props = Common\Directory.Build.props
+		Common\Directory.Packages.props = Common\Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLibrary", "Common\CommonLibrary\CommonLibrary.csproj", "{267000AB-899E-45C5-9899-0177D26A4E66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLibrary.Core", "Common\CommonLibrary.Core\CommonLibrary.Core.csproj", "{3F75AF58-F405-4B96-9EEA-D3A85FE5EF6E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{75819499-AFEF-4DED-A4E4-8CE72C796FDD}"
+	ProjectSection(SolutionItems) = preProject
+		Pack-Common.ps1 = Pack-Common.ps1
+		Pack-CommonLibrary.Core.ps1 = Pack-CommonLibrary.Core.ps1
+		Pack-CommonLibrary.Packages.ps1 = Pack-CommonLibrary.Packages.ps1
+		Pack-CommonLibrary.ps1 = Pack-CommonLibrary.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "All", "All", "{B5C0011F-610B-461A-A878-E6F513971861}"
+	ProjectSection(SolutionItems) = preProject
+		Common\All\CommonLibrary.Packages.nuspec = Common\All\CommonLibrary.Packages.nuspec
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntryPointApp", "EntryPoint\EntryPointApp\EntryPointApp.csproj", "{DA8428EF-ABC0-4A6E-A3CD-56AF9D872A00}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{267000AB-899E-45C5-9899-0177D26A4E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{267000AB-899E-45C5-9899-0177D26A4E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{267000AB-899E-45C5-9899-0177D26A4E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{267000AB-899E-45C5-9899-0177D26A4E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F75AF58-F405-4B96-9EEA-D3A85FE5EF6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F75AF58-F405-4B96-9EEA-D3A85FE5EF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F75AF58-F405-4B96-9EEA-D3A85FE5EF6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F75AF58-F405-4B96-9EEA-D3A85FE5EF6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA8428EF-ABC0-4A6E-A3CD-56AF9D872A00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA8428EF-ABC0-4A6E-A3CD-56AF9D872A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA8428EF-ABC0-4A6E-A3CD-56AF9D872A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA8428EF-ABC0-4A6E-A3CD-56AF9D872A00}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{267000AB-899E-45C5-9899-0177D26A4E66} = {ACEF6EBB-8771-4958-8C11-8C94A10B6F2D}
+		{3F75AF58-F405-4B96-9EEA-D3A85FE5EF6E} = {ACEF6EBB-8771-4958-8C11-8C94A10B6F2D}
+		{B5C0011F-610B-461A-A878-E6F513971861} = {ACEF6EBB-8771-4958-8C11-8C94A10B6F2D}
+		{DA8428EF-ABC0-4A6E-A3CD-56AF9D872A00} = {D310853D-4287-440E-8F5E-0EC60C934655}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {82551572-8E61-43A6-B917-42B1BA5ABCA8}
+	EndGlobalSection
+EndGlobal

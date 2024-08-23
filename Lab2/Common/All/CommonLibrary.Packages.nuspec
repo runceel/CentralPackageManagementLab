@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>CommonLibrary.Packages</id>
+    <version>0.0.1</version>
+    <description>Common packages</description>
+    <authors>Common team</authors>
+    <dependencies>
+      <dependency id="CommonLibrary" version="1.0.0" />
+      <dependency id="CommonLibrary.Core" version="1.1.0" />
+    </dependencies>
+  </metadata>
+</package>
